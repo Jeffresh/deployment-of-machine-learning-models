@@ -65,3 +65,10 @@ def check_dummy_variables(df, dummy_list):
             df[var] = 0
 
     return df
+
+
+def train_scaler(df, ouput_path):
+    scaler = StandardScaler()
+    scaler.fit(df)
+    joblib.dump(scaler, ouput_path)
+    return scaler
