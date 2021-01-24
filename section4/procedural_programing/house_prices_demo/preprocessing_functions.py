@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from sklearn import linear_model
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -77,3 +78,13 @@ def train_scaler(df, ouput_path):
 def scale_features(df, output_path):
     scaler = joblib.load(output_path)
     return scaler.transform(df)
+
+
+def train_model(df, target, output_path):
+    lin_model = LogisticRegression(C=0.0005, random_state=0)
+
+    lin_model.fit(df, target)
+
+    joblib.dump(lin_model, output_path)
+
+    return None
