@@ -53,3 +53,15 @@ def encode_categorical(df, var):
     df.drop(labels=[var], axis=1, inplace=True)
 
     return df
+
+
+def check_dummy_variables(df, dummy_list):
+    missing_vars = [var for var in dummy_list if var not in df.columns]
+
+    if len(missing_vars) == 0:
+        print('All dummies were added')
+    else:
+        for var in missing_vars:
+            df[var] = 0
+
+    return df
