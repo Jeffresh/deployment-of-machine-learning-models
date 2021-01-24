@@ -44,3 +44,12 @@ def impute_na(df, var, replacement='Missing'):
 
 def remove_rare_labels(df, var, frequent_labels, replacement='Rare'):
     return np.where(df[var].isin(frequent_labels), df[var], replacement)
+
+
+def encode_categorical(df, var):
+    df = df.copy()
+    df = pd.concat(
+        [df, pd.get_dummies(df[var], prefix=var, drop_first=True)], axis=1)
+    df.drop(labels=[var], axis=1, inplace=True)
+
+    return df
