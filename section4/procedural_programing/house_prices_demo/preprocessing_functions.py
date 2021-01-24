@@ -72,3 +72,8 @@ def train_scaler(df, ouput_path):
     scaler.fit(df)
     joblib.dump(scaler, ouput_path)
     return scaler
+
+
+def scale_features(df, output_path):
+    scaler = joblib.load(output_path)
+    return scaler.transform(df)
