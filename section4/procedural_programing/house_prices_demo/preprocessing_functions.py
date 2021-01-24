@@ -40,3 +40,7 @@ def add_missing_indicator(df, var):
 
 def impute_na(df, var, replacement='Missing'):
     return df[var].fillna(replacement)
+
+
+def remove_rare_labels(df, var, frequent_labels, replacement='Rare'):
+    return np.where(df[var].isin(frequent_labels), df[var], replacement)
