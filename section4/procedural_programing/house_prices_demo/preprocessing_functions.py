@@ -36,3 +36,7 @@ def extract_cabin_letter(df, var):
 
 def add_missing_indicator(df, var):
     return np.where(df[var].isnull(), 1, 0)
+
+
+def impute_na(df, var, replacement='Missing'):
+    return df[var].fillna(replacement)
