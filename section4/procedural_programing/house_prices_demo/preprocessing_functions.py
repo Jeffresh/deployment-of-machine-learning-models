@@ -28,3 +28,7 @@ def divide_train_test(df, target):
                                                         random_state=0)
 
     return X_train, X_test, y_train, y_test
+
+
+def extract_cabin_letter(df, var):
+    return df['cabin'].str[0]
