@@ -32,3 +32,7 @@ def divide_train_test(df, target):
 
 def extract_cabin_letter(df, var):
     return df['cabin'].str[0]
+
+
+def add_missing_indicator(df, var):
+    return np.where(df[var].isnull(), 1, 0)
