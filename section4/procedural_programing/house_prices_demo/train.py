@@ -1,10 +1,8 @@
-from os import replace
-
 import numpy as np
 
-from .preprocessing_functions import *
+import preprocessing_functions as pf
 
-from .config import *
+import config
 
 import warnings
 
@@ -13,54 +11,56 @@ warnings.simplefilter(action='ignore')
 # Training step - important to perpetuate the model
 
 # Load data
-data = load_data(PATH_TO_DATASET)
+data = pf.load_data(config.PATH_TO_DATASET)
 
 # divide data et
-X_train, X_test, y_train, y_test = divide_train_test(data, TARGET)
+X_train, X_test, y_train, y_test = pf.divide_train_test(data, config.TARGET)
 
 # impute categorical variables
 
-for var in CATEGORICAL_TO_IMPUTE:
-    X_train[var] = impute_na(X_train, var)
+for var in config.CATEGORICAL_TO_IMPUTE:
+    X_train[var] = pf.impute_na(X_train, var)
 
 # impute numerical variable
 
-for var in NUMERICAL_TO_IMPUTE:
+for var in config.NUMERICAL_TO_IMPUTE:
 
-    X_train[var] = impute_na(
-        X_train, var, replacement=LOTFRONTAGE_MODE if var == 'LotFrontage' else 'Missing')
+    X_train[var] = pf.impute_na(
+        X_train, var, replacement=config.LOTFRONTAGE_MODE if var == 'LotFrontage' else 'Missing')
 
 # capture elapsed time
 
-X_train[YEAR_VARIABLE] = elapsed_years(
-    X_train, YEAR_VARIABLE, ref_var='YrSold')
+X_train[config.YEAR_VARIABLE] = pf.elapsed_years(
+    X_train, config.YEAR_VARIABLE, ref_var='YrSold')
 
 # log transform numerical variables
 
-for var in NUMERICAL_LOG:
-    X_train[var] = log_transform(X_train, var)
+for var in config.NUMERICAL_LOG:
+    X_train[var] = pf.log_transform(X_train, var)
 
 # Group rare labels
 
-for var in CATEGORICAL_ENCODE:
-    X_train[var] = remove_rare_labels(X_train, var, FREQUENT_LABELS[var])
+for var in config.CATEGORICAL_ENCODE:
+    X_train[var] = pf.remove_rare_labels(
+        X_train, var, config.FREQUENT_LABELS[var])
 
 # encode categorical variables
 
-for var in CATEGORICAL_ENCODE:
-    X_train[var] = encode_categorical(X_train, var), ENCODING_MAPPINGS[var]
+for var in config.CATEGORICAL_ENCODE:
+    X_train[var] = pf.encode_categorical(
+        X_train, var, config.ENCODING_MAPPINGS[var])
 
 # train scaler and save
 
-scaler = train_scaler(X_train[FEATURES], OUTPUT_SCALER_PATH)
+scaler = pf.train_scaler(X_train[config.FEATURES], config.OUTPUT_SCALER_PATH)
 
 # scale train set
 
-X_train = scaler.transform(X_train[FEATURES])
+X_train = scaler.transform(X_train[config.FEATURES])
 
 # train model and save
 
-train_model(X_train, np.log(y_train), OUTPUT_MODEL_PATH)
+pf.train_model(X_train, np.log(y_train), config.OUTPUT_MODEL_PATH)
 
 
 print('Finished training')
