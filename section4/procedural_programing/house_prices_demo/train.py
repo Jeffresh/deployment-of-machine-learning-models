@@ -6,6 +6,8 @@ from .preprocessing_functions import *
 
 from .config import *
 
+import warnings
+
 warnings.simplefilter(action='ignore')
 
 # Training step - important to perpetuate the model
