@@ -1,6 +1,6 @@
 # ================== Paths
 
-PATH_TO_DATASTE = "houseprice.csv"
+PATH_TO_DATASET = "houseprice.csv"
 OUTPUT_SCALER_PATH = 'scaler.pkl'
 OUTPUT_MODEL_PATH = 'lasso_regression.pkl'
 
