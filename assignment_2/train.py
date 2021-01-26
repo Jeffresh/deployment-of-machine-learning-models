@@ -35,7 +35,8 @@ for var in config.NUMERICAL_TO_IMPUTE:
 # Group rare labels
 
 for var in config.CATEGORICAL_VARS:
-    X_train[var] = pf.remove_rare_labels(X_train, var, config.FREQUENT_LABELS)
+    X_train[var] = pf.remove_rare_labels(
+        X_train, var, config.FREQUENT_LABELS[var])
 
 # encode categorical variables
 for var in config.CATEGORICAL_VARS:
