@@ -41,7 +41,7 @@ class Pipeline:
         self.test_size = test_size
         self.random_state = random_state
         self.percentage = rare_percentage
-        self.rev_variable = ref_variable
+        self.ref_variable = ref_variable
 
     # ======================== functions to learn parameters from train set
 
@@ -104,7 +104,7 @@ class Pipeline:
 
         for variable in self.categorical_encode:
             df[variable] = df[variable].map(
-                self.frequent_category_dict[variable])
+                self.encoding_dict[variable])
 
         return df
 
@@ -135,10 +135,10 @@ class Pipeline:
 
         # numerical
 
-        self.X_train[self.numerical_to_impute] = self.X_train.fillna(
+        self.X_train[self.numerical_to_impute] = self.X_train[self.numerical_to_impute].fillna(
             self.imputing_dict[self.numerical_to_impute[0]])
 
-        self.X_test[self.numerical_to_impute] = self.X_test.fillna(
+        self.X_test[self.numerical_to_impute] = self.X_test[self.numerical_to_impute].fillna(
             self.imputing_dict[self.numerical_to_impute[0]])
 
         # capture elapsed time
@@ -228,7 +228,7 @@ class Pipeline:
 
         data = self.transform(data)
 
-        predictions = self.modelpredict(data)
+        predictions = self.model.predict(data)
 
         return np.exp(predictions)
 
