@@ -21,7 +21,7 @@ class Pipeline:
 
         # engineering parameters (to be learn from data)
         self.imputing_dict = {}
-        self.frequent_categori_dict = {}
+        self.frequent_category_dict = {}
         self.encoding_dict = {}
 
         # models
@@ -57,10 +57,10 @@ class Pipeline:
         '''find list of frequent categories in categorical variables'''
 
         for variable in self.categorical_encode:
-            tmp = self.X_train.groupby(
+            percentage = self.X_train.groupby(
                 variable)[self.target].count() / len(self.X_train)
-            self.frequent_categori_dict[variable] = tmp[tmp >
-                                                        self.percentage].index
+            self.frequent_category_dict[variable] = percentage[percentage >
+                                                               self.percentage].index
 
         return self
 
@@ -76,3 +76,34 @@ class Pipeline:
             self.encoding_dict[variable] = ordinal_labels
 
         return self
+
+    # ==================== functions to transform data
+
+    def capture_elapsed_years(self, df):
+        ''' capture time difference between variable and reference variable'''
+
+        df = df.copy()
+        df[self.year_variable] = df[self.year_variable] - df[self.ref_variable]
+
+        return df
+
+    def remove_rare_labels(self, df):
+        ''' group infrequent labels in group Rare'''
+        df = df.copy()
+
+        for variable in self.categorical_encode:
+            df[variable] = np.where(df[variable].isin(
+                self.frequent_category_dict[variable]), df[variable], 'Rare')
+
+        return df
+
+    def encode_categorical_variables(self, df):
+        ''' replace categories by numbers in categorical variables'''
+
+        df = df.copy()
+
+        for variable in self.categorical_encode:
+            df[variable] = df[variable].map(
+                self.frequent_category_dict[variable])
+
+        return df
