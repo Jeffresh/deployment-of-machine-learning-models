@@ -231,3 +231,14 @@ class Pipeline:
         predictions = self.modelpredict(data)
 
         return np.exp(predictions)
+
+    def evaluate_model(self):
+        ''' evaluates traiend model on train and test sets'''
+
+        pred = self.model.predict(self.X_train)
+        pred = np.exp(pred)
+        print('train r2: {}'.format((r2_score(self.y_train, pred))))
+
+        pred = self.model.predict(self.X_test)
+        pred = np.exp(pred)
+        print('test r2: {}'.format((r2_score(self.y_test, pred))))
