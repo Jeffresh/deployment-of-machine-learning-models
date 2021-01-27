@@ -107,3 +107,81 @@ class Pipeline:
                 self.frequent_category_dict[variable])
 
         return df
+
+    # ===== master function that orchestrates feature engineering
+
+    def fit(self, data):
+        '''pipeline to learn parameters from data, fit the scaler and lasso'''
+
+        # separate datasets
+
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+            data, data[self.target],
+            test_size=self.test_size,
+            random_state=self.random_state
+        )
+
+        # find imputation parameters
+
+        self.find_imputation_replacements()
+
+        # impute missing data
+        # categorical
+
+        self.X_train[self.categorical_to_impute] = self.X_train[self.categorical_to_impute].fillna(
+            'Missing')
+        self.X_test[self.categorical_to_impute] = self.X_test[self.categorical_to_impute].fillna(
+            'Missing')
+
+        # numerical
+
+        self.X_train[self.numerical_to_impute] = self.X_train.fillna(
+            self.imputing_dict[self.numerical_to_impute[0]])
+
+        self.X_test[self.numerical_to_impute] = self.X_test.fillna(
+            self.imputing_dict[self.numerical_to_impute[0]])
+
+        # capture elapsed time
+        self.X_train = self.capture_elapsed_years(df=self.X_train)
+        self.X_test = self.capture_elapsed_years(df=self.X_test)
+
+        # transform numerical variables
+
+        self.X_train[self.numerical_log] = np.log(
+            self.X_train[self.numerical_log])
+
+        self.X_test[self.numerical_log] = np.log(
+            self.X_test[self.numerical_log])
+
+        # find frequent labels
+
+        self.find_frequent_categories()
+
+        # remove rare labels
+
+        self.X_train = self.remove_rare_labels(self.X_train)
+        self.X_test = self.remove_rare_labels(self.X_test)
+
+        # find categorical mappings
+
+        self.find_categorical_mappings()
+
+        # encode categorical variables
+
+        self.X_train = self.encode_categorical_variables(self.X_train)
+        self.X_test = self.encode_categorical_variables(self.X_test)
+
+        # train scaler
+
+        self.scaler.fit(self.X_train[self.features])
+
+        # scale variables
+
+        self.X_train = self.scaler.transform(self.X_train[self.features])
+        self.X_test = self.scaler.transform(self.X_test[self.features])
+
+        # train model
+
+        self.model.fit(self.X_train, np.log(self.y_train))
+
+        return self
