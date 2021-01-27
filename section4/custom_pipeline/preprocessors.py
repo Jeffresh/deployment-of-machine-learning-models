@@ -185,3 +185,49 @@ class Pipeline:
         self.model.fit(self.X_train, np.log(self.y_train))
 
         return self
+
+    def transform(self, data):
+        ''' transforms the raw data into engineered features '''
+
+        data = data.copy()
+
+        # impute categorical
+
+        data[self.categorical_to_impute] = data[self.categorical_to_impute].fillna(
+            'Missing')
+
+        # numerical
+
+        data[self.numerical_to_impute] = data[self.numerical_to_impute].fillna(
+            self.imputing_dict[self.numerical_to_impute[0]])
+
+        # capture elapsed time
+
+        data = self.capture_elapsed_years(df=data)
+
+        # transform numerical variables
+
+        data[self.numerical_log] = np.log(data[self.numerical_log])
+
+        # remove rare labels
+
+        data = self.remove_rare_labels(df=data)
+
+        # encode categorical variables
+
+        data = self.encode_categorical_variables(df=data)
+
+        # scale variables
+
+        data = self.scaler.transform(data[self.features])
+
+        return data
+
+    def predict(self, data):
+        ''' obtain predictions'''
+
+        data = self.transform(data)
+
+        predictions = self.modelpredict(data)
+
+        return np.exp(predictions)
