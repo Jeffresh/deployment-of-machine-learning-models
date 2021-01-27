@@ -1,3 +1,4 @@
+from itertools import groupby
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
@@ -18,7 +19,7 @@ class Pipeline:
         self.y_train = None
         self.y_test = None
 
-        # engineering parameters (bo te learn from data)
+        # engineering parameters (to be learn from data)
         self.imputing_dict = {}
         self.frequent_categori_dict = {}
         self.encoding_dict = {}
@@ -45,9 +46,33 @@ class Pipeline:
     # ======================== functions to learn parameters from train set
 
     def find_imputation_replacements(self):
-        ''' find value to be used from imputattion'''
-        pass
+        '''find value to be used from imputation'''
+        for variable in self.numerical_to_impute:
+            replacement = self.X_train[variable].mode()[0]
+            self.imputing_dict[variable] = replacement
+
+        return self
 
     def find_frequent_categories(self):
-        ''' find list of frequent categories in categorical variables'''
-        pass
+        '''find list of frequent categories in categorical variables'''
+
+        for variable in self.categorical_encode:
+            tmp = self.X_train.groupby(
+                variable)[self.target].count() / len(self.X_train)
+            self.frequent_categori_dict[variable] = tmp[tmp >
+                                                        self.percentage].index
+
+        return self
+
+    def find_categorical_mappings(self):
+        ''' create category to integer mappings for categorical encoding'''
+
+        for variable in self.categorical_encode:
+            ordered_labels = self.X_train.groupby(
+                [variable])[self.target].mean().sort_values().index
+
+            ordinal_labels = {k: i for i, k in enumerate(ordered_labels, 0)}
+
+            self.encoding_dict[variable] = ordinal_labels
+
+        return self
