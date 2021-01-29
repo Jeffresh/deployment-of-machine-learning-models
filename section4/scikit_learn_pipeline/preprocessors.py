@@ -114,7 +114,7 @@ class RareLabelCategoricalEncoder(BaseEstimator, TransformerMixin):
 class CategoricalEncoder(BaseEstimator, TransformerMixin):
 
     def __init__(self, variables=None):
-        if not isinstance(list):
+        if not isinstance(variables, list):
             self.variables = [variables]
         else:
             self.variables = variables
@@ -141,5 +141,28 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
 
         for feature in self.variables:
             X[feature] = X[feature].map(self.encoder_dict_[feature])
+
+        return X
+
+
+class LogTransformer(BaseEstimator, TransformerMixin):
+
+    def __init__(self, variables):
+        if not isinstance(variables, list):
+            self.variables = [variables]
+        else:
+            self.variables = variables
+
+    def fit(self, X, y=None):
+        # to accomodate the pipeline
+
+        return self
+
+    def transform(self, X):
+
+        X = X.copy()
+
+        for feature in self.variables:
+            X[feature] = np.log(X[feature])
 
         return X
