@@ -51,6 +51,29 @@ class NumericalImputer(BaseEstimator, TransformerMixin):
             X[feature].fillna(self.imputer_dict_[feature], inplace=True)
 
 
+class TemporalVariableEstimator(BaseEstimator, TransformerMixin):
+
+    def __init__(self, variables=None, reference_variable=None):
+        if not isinstance(variables, list):
+            self.variables = [variables]
+        else:
+            self.variables = variables
+
+        self.reference_variable = reference_variable
+
+    def fit(self, X, y=None):
+        # we need this step to fit the sklearn pipeline
+        return self
+
+    def transform(self, X):
+        X = X.copy()
+
+        for feature in self.variables:
+            X[feature] = X[self.reference_variable] - X[feature]
+
+        return X
+
+
 class RareLabelCategoricalEncoder(BaseEstimator, TransformerMixin):
 
     def __init__(self, tol=0.05, variables=None):
