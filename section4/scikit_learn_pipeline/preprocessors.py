@@ -182,4 +182,4 @@ class DropUnecessaryFeatures(BaseEstimator, TransformerMixin):
 
         X = X.drop(self.variables, axis=1)
 
-        return x
+        return X
