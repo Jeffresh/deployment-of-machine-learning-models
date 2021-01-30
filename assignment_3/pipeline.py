@@ -1,4 +1,3 @@
-from assignment_3.preprocessors import MissingIndicator
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -7,7 +6,7 @@ import preprocessors as pp
 import config
 
 
-titanic_pipe = Pipeline(
+titanic_pipe = Pipeline(steps=[
     # complete with the list of steps from the preprocessors file
     # and the list of variables from the config
     ('categorical_imputer', pp.CategoricalImputer(
@@ -30,4 +29,5 @@ titanic_pipe = Pipeline(
     ('scaler', StandardScaler()),
 
     ('Linear_model', LogisticRegression(C=0.0005, random_state=0))
+]
 )
