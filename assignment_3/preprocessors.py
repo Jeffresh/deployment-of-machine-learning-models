@@ -64,7 +64,7 @@ class NumericalImputer(BaseEstimator, TransformerMixin):
         for var in self.variables:
             self.imputer_dict_[var] = X[var].mode()[0]
 
-        return self,
+        return self
 
     def transform(self, X):
 
@@ -118,7 +118,7 @@ class RareLabelCategoricalEncoder(BaseEstimator, TransformerMixin):
         for variable in self.variables:
             prop = X[variable].value_counts() / len(X)
             self.encoder_dict_[variable] = prop[prop >=
-                                                self.tol].index.tolists()
+                                                self.tol].index.tolist()
         return self
 
     def transform(self, X):
