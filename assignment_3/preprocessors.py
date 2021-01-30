@@ -163,7 +163,7 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
 
         missing_vars = [var for var in self.dummies if var not in X.columns]
 
-        if not missing_vars:
+        if missing_vars:
             for var in missing_vars:
                 X[var] = 0
 
