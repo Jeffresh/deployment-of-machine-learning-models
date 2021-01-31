@@ -1,10 +1,12 @@
 from my_module import square
+import pytest
 
 
-def test_square_return_value_type_is_int(input_value):
+@pytest.mark.parametrize('inputs', [2, 3, 4])
+def test_square_return_value_type_is_int(inputs):
     # When
 
-    subject = square(input_value)
+    subject = square(inputs)
 
     # Then
 
