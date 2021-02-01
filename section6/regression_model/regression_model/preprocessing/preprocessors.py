@@ -17,7 +17,7 @@ class CategoricalImputer(BaseEstimator, TransformerMixin):
         """Fit statement to accomodate the sklearn pipeline"""
         return self
 
-    def transform(self, X: pd.DataFrame) -> pd.Dataframe:
+    def transform(self, X: pd.DataFrame) -> pd.DataFrame:
         """Apply the transforms to the dataframe"""
 
         X = X.copy()
@@ -36,7 +36,7 @@ class NumericalImputer(BaseEstimator, TransformerMixin):
         else:
             self.variables = variables
 
-    def fit(self, X: pd.Dataframe, y: pd.Series = None) -> 'NumericalImputer':
+    def fit(self, X: pd.DataFrame, y: pd.Series = None) -> 'NumericalImputer':
         # persist mdoe dictionary
 
         self.imputer_dict_ = {}
@@ -46,7 +46,7 @@ class NumericalImputer(BaseEstimator, TransformerMixin):
 
         return self
 
-    def transform(self, X: pd.Dataframe) -> pd.DataFrame:
+    def transform(self, X: pd.DataFrame) -> pd.DataFrame:
         X = X.copy()
 
         for feature in self.variables:
@@ -95,7 +95,7 @@ class RareLabelCategoricalEncoder(BaseEstimator, TransformerMixin):
         self.encoder_dict_ = {}
 
         for feature in self.variables:
-            prob = X[feature].value_counts / len(feature)
+            prob = pd.Series(X[feature].value_counts() / np.float(len(X)))
 
             self.encoder_dict_[feature] = prob[prob >= self.tol].index.tolist()
 
@@ -122,7 +122,7 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
 
     def fit(self, X: pd.DataFrame, y: pd.Series) -> 'CategoricalEncoder':
         temp = pd.concat([X, y], axis=1)
-        temp.columns = list(X.columns + ['target'])
+        temp.columns = list(X.columns) + ['target']
 
         # persist trasnforming dictionary
 
@@ -137,11 +137,12 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
 
         return self
 
-    def transform(self, X: pd.DataFrame) -> pd.Dataframe:
+    def transform(self, X: pd.DataFrame) -> pd.DataFrame:
+
         X = X.copy()
 
         for feature in self.variables:
-            X[feature].map(self.encoder_dict_[feature])
+            X[feature] = X[feature].map(self.encoder_dict_[feature])
 
         # check if transformer introduces NaN
 
@@ -163,7 +164,7 @@ class LogTransformer(BaseEstimator, TransformerMixin):
     """Logarithm transformer"""
 
     def __init__(self, variables=None) -> None:
-        if not isisntance(variables, list):
+        if not isinstance(variables, list):
             self.variables = [variables]
         else:
             self.variables = variables
