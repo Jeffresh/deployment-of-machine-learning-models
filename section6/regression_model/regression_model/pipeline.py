@@ -15,7 +15,7 @@ price_pipe = Pipeline(
         (
             'numerical_imputer',
             pp.NumericalImputer(variables=config.NUMERICAL_VARS_WITH_NA),
-        )
+        ),
         (
             'temporal_variable',
             pp.TemporalVariableEstimator(
@@ -29,7 +29,11 @@ price_pipe = Pipeline(
         ),
         (
             'categorical_encoder',
-            pp.CatecorigalEncoder(variables=config.CATEGORICAL_VARS),
+            pp.CategoricalEncoder(variables=config.CATEGORICAL_VARS),
+        ),
+        (
+            'log_transformer', pp.LogTransformer(
+                variables=config.NUMERICALS_LOG_VARS)
         ),
         (
             'drop_features',
