@@ -195,7 +195,7 @@ class LogTransformer(BaseEstimator, TransformerMixin):
 class DropUnecessaryFeatures(BaseEstimator, TransformerMixin):
 
     def __init__(self, variables_to_drop=None) -> None:
-        self.variables = variables_to_drop
+        self.variables_to_drop = variables_to_drop
 
     def fit(self, X: pd.DataFrame, y: pd.Series = None) -> 'DropUnecessaryFeatures':
         # to accomodate pipeline
