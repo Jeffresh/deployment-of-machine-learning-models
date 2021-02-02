@@ -12,3 +12,7 @@ joblib>=0.14.1,<0.15.0
 
 # Testing requirements
 pytest>=5.3.2,<6.0.0
+
+# packaging
+setuptools>=41.40,<42.0.0
+wheel>=.33.6,<0.34.0
