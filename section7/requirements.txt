@@ -1,0 +1,6 @@
+# api
+flask==1.0.2
+
+# local regression_model package
+# update with your local path
+-e "D:\cursos\Deployment-of-machine-learning-models\deployment-of-machine-learning-models\section6\regression_model"
