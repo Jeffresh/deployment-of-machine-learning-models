@@ -24,7 +24,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Running tests
+          name: Runnning tests
           command: |
             virtualenv venv
             . venv/bin/activate
