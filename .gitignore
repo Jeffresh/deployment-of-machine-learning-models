@@ -131,3 +131,8 @@ dmypy.json
 # vscode
 
 .vscode
+
+# datafiles
+
+section6/regression_model/regression_model/datasets/*.csv
+section6/regression_model/regression_model/datasets/*.zip
