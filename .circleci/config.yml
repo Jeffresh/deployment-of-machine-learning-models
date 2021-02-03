@@ -47,11 +47,11 @@ jobs:
       - run:
           name: Publish model
           command: |
-          . venv/bin/activate
-          chmod +x ./scripts/fetch_kaggle_dataset.sh ./scripts/publish_model.sh
-          ./scripts/fetch_kaggle_dataset.sh
-          PYTHONPATH=./section6/regression_model python3 section6/regression_model/regression_model/train_pipeline.py
-          ./scripts/publish_model.sh ./section6/regression_model/
+            . venv/bin/activate
+            chmod +x ./scripts/fetch_kaggle_dataset.sh ./scripts/publish_model.sh
+            ./scripts/fetch_kaggle_dataset.sh
+            PYTHONPATH=./section6/regression_model python3 section6/regression_model/regression_model/train_pipeline.py
+            ./scripts/publish_model.sh ./section6/regression_model/
 
 
           
