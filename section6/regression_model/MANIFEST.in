@@ -4,8 +4,8 @@ include *.cfg
 include *.pkl
 recursive-include ./regression_model/*
 
-include regression_model/datasets/train.csv
-include regression_model/datasets/test.csv
+include regression_model/dataset/train.csv
+include regression_model/dataset/test.csv
 include regression_model/trained_models/*.pkl
 include regression_model/VERSION
 
