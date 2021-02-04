@@ -31,7 +31,7 @@ def predict():
         # Step 3: Model prediction
 
         result = make_prediction(input_data=input_data)
-        _logger.info(f'Outputs: {result}')
+        _logger.debug(f'Outputs: {result}')
 
         # Step 4: Convert numpy ndarray to list
 
