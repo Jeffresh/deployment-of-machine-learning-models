@@ -111,6 +111,15 @@ jobs:
             pip install -r section7/ml_api/requirements.txt
             py.test -vv section7/ml_api/tests -m differential
 
+  section_10_deploy_to_heroku:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Deploy to Heroku
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main
+
 workflows:
   version: 2
   test-all:
@@ -126,4 +135,11 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
+      - section_10_deploy_to_heroku:
+          requires:
+            - train_and_upload_regression_model
+          filters:
+            branches:
+              only:
+               - main
