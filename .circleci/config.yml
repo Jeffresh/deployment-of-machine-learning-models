@@ -89,7 +89,7 @@ jobs:
       - run:
           name: Publish model to GemFury
           command: |
-            .venv/bin/activate
+            . venv/bin/activate
             chmod +x ./scripts/publish_model.sh
             ./scripts/publish_model.sh ./section6/regression_model/
 
