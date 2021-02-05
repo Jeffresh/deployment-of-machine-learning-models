@@ -9,7 +9,6 @@ from regression_model.preprocessing.data_management import load_dataset
 
 from api import config
 
-@pytest.mark.skip
 @pytest.mark.differential
 def test_model_prediction_differential(
         *,
