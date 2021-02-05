@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath section7/ml_api --access-logfile - --error-logfile - run:application
