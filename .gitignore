@@ -136,3 +136,15 @@ dmypy.json
 
 section6/regression_model/regression_model/datasets/*.csv
 section6/regression_model/regression_model/datasets/*.zip
+section6/regression_model/regression_model/datasets/*.txt
+
+train.csv
+tests.csv
+test_data_predictions.csv
+
+# all logs
+
+logs/
+
+# trained models (will be created in CI)
+section6/regression_model/regression_model/trained_models/*.pkl
