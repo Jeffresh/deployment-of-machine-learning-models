@@ -26,25 +26,25 @@ jobs:
     <<: *defaults
 
     steps:
-    - checkout
-    - *prepare_venv
-    - run:
-        name: Install requirements
-        command: |
-        . venv/bin/activate
-        pip install -r section6/regression_model/requirements.txt
-
-    - *fetch_data
-    - run:
-        name: Train model
-        command: |
-          . venv/bin/activate
-          PYTHONPATH=./section6/regression_model python3 section6/regression_model/regression_model/train_pipeline.py
-    - run:
-      name: Run tests
-      command: |
-        . venv/bin/activate
-        py.test -vv section6/regression_model/tests
+      - checkout
+      - *prepare_venv
+      - run:
+          name: Install requirements
+          command: |
+            . venv/bin/activate
+            pip install -r section6/regression_model/requirements.txt
+          
+      - *fetch_data
+      - run:
+          name: Train model
+          command: |
+            . venv/bin/activate
+            PYTHONPATH=./section6/regression_model python3 section6/regression_model/regression_model/train_pipeline.py
+      - run:
+          name: Run tests
+          command: |
+            . venv/bin/activate
+            py.test -vv section6/regression_model/tests
 
     
   test_ml_api:
@@ -52,8 +52,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-        keys:
-         - py-deps-{{ checksum "section7/ml_api/requirements.txt" }}
+          keys:
+          - py-deps-{{ checksum "section7/ml_api/requirements.txt" }}
 
       - run:
           name: Runnning tests
