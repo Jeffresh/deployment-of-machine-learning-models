@@ -32,7 +32,7 @@ jobs:
         name: Install requirements
         command: |
         . venv/bin/activate
-        pip nstall -r section6/regression_model/requirements.txt
+        pip install -r section6/regression_model/requirements.txt
 
     - *fetch_data
     - run:
