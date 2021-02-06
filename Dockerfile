@@ -2,7 +2,7 @@ FROM python:3.6.4
 
 # Create the user that will run the app
 
-RUN adduser --disabled-passsword --gecos '' ml-api-user
+RUN adduser --disabled-password --gecos '' ml-api-user 
 
 WORKDIR /opt/ml_api
 
