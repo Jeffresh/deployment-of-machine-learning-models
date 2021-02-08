@@ -156,6 +156,7 @@ section13/neural_network_model/neural_network_model/datasets/training_data_refer
 .DS_Store
 
 kaggle.json
+section7/ml_api/uploads/*
 
 # dataset
 section13/neural_network_model/datasets/v2-plant-seedlings-dataset
