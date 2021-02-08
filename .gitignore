@@ -148,3 +148,6 @@ logs/
 
 # trained models (will be created in CI)
 section6/regression_model/regression_model/trained_models/*.pkl
+
+# dataset
+section13/v2-plant-seedlings-dataset
