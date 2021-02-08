@@ -148,6 +148,17 @@ logs/
 
 # trained models (will be created in CI)
 section6/regression_model/regression_model/trained_models/*.pkl
+section13/neural_network_model/neural_network_model/trained_models/*.pkl
+section13/neural_network_model/neural_network_model/trained_models/*.h5
+*.h5
+section13/neural_network_model/neural_network_model/datasets/training_data_reference.txt
+
+.DS_Store
+
+kaggle.json
 
 # dataset
-section13/v2-plant-seedlings-dataset
+section13/neural_network_model/datasets/v2-plant-seedlings-dataset
+
+v2-plant-seedlings-dataset/
+v2-plant-seedlings-dataset.zip
