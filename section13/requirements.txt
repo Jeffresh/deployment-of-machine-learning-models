@@ -2,3 +2,4 @@ theano
 tensorflow
 keras
 opencv-python
+seaborn
