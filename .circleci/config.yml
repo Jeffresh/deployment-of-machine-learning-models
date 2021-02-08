@@ -151,7 +151,36 @@ jobs:
           eval $(aws ecr get-login --no-include-email --regrion us-east-1)
           make build-ml-api-aws tag-ml-api push-ml-api-aws
           aws ecs update-service --cluster ml-api-cluster --service custmo-service --task-definition fist-run-task-definition --force-new-deployment
-
+  
+  section_13_train_and_upload_neural_network_model:
+    docker:
+      - image: circleci/python:3.6.4-stretch
+    working_directory: ~/project
+    steps:
+      - checkout
+      - *prepare_venv
+      - run: 
+          name: Install requirements
+          command: |
+            . venv/bin/activate
+            pip install -r section13/neural_network_model/requirements.txt
+      - run:
+          name: Fetch Training data - 2GB
+          command: |
+            . venv/bin/activate
+            chmod +x ./scripts/fetch_kaggle_large_dataset.sh
+            ./scripts/fetch_kaggle_large_dataset.sh
+      - run: 
+          name: Train model
+          command: |
+            . venv/bin/activate
+            PYTHONPATH=./section13/neural_network_model python3 section13/neural_network_model/neural_network_model/train_pipeline.py
+      - run: 
+          name: Publish model to Gemfury
+          command: |
+            . venv/bin/activate
+            chmod +x ./scripts/publish_model.sh
+            ./scripts/publish_model.sh ./section13/neural_network_model/
 workflows:
   version: 2
   test-all:
@@ -187,3 +216,19 @@ workflows:
       #       branches:
       #         only:
       #           -master
+
+      - section_13_train_and_upload_neural_network_model:
+          requires:
+            - test_regression_model
+            - test_ml_api
+            - section_9_differential_tests
+            # - train_and_upload_regression_model
+          # filters:
+          #   branches:
+          #     only:
+          #       - main
+
+
+
+      
+          
