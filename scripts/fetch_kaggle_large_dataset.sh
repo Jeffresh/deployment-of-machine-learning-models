@@ -8,4 +8,4 @@ unzip section13/neural_network_model/neural_network_model/datasets/v2-plant-seed
 echo $TRAINING_DATA_URL 'retrieved on:' $NOW > section13/neural_network_model/neural_network_model/datasets/training_data_reference.txt && \
 mkdir -p "./section13/neural_network_model/neural_network_model/datasets/v2-plant-seedlings-dataset/Shepherds Purse"  && \
 mv -v "./section13/neural_network_model/neural_network_model/datasets/v2-plant-seedlings-dataset/Shepherd’s Purse/"* "./section13/neural_network_model/neural_network_model/datasets/v2-plant-seedlings-dataset/Shepherds Purse"
-rm -rf "./section13/neural_network_model/neural_network_model/datasets/v2-plant-seedlings-dataset/Shepherd’s Purse
+rm -rf "./section13/neural_network_model/neural_network_model/datasets/v2-plant-seedlings-dataset/Shepherd’s Purse"
